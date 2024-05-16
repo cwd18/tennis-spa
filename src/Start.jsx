@@ -13,8 +13,6 @@ function Start() {
     .then(setTokenData);
   }, []);
   if (typeof tokenData.TokenClass === 'undefined') return null;
-  globalData.sessionUser = tokenData.FirstName + ' ' + tokenData.LastName;
-  globalData.sessionRole = tokenData.TokenClass;
   if (tokenData.TokenClass === 'Admin') { 
     return (<Navigate to={'/admin'} />);
   }
