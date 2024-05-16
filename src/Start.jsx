@@ -1,38 +1,26 @@
 import 'purecss/build/pure.css';
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import Bar from './Bar';
-import SeriesList from './SeriesList';
-import UserView from './UserView';
+import { Navigate, useParams } from 'react-router-dom';
+import globalData from './GlobalData';
 
-function Start({apiServer}) {
+function Start() {
   let params = useParams();
   let token = params['token'];
   const [tokenData, setTokenData] = useState({});
   useEffect(() => {
-    fetch(apiServer + '/api/start/' + token, {credentials: 'include'})
+    fetch(globalData.apiServer + '/api/start/' + token, {credentials: 'include'})
     .then(response => response.json())
     .then(setTokenData);
-  }, [apiServer, token]);
+  }, []);
   if (typeof tokenData.TokenClass === 'undefined') return null;
-    return (
-    <div>
-      <Bar 
-        sessionUser={tokenData.FirstName + ' ' + tokenData.LastName} 
-        role={tokenData.TokenClass}
-        />
-      <div className="pure-g">
-        <div className="pure-u-1-24"></div>
-        <div className="pure-u-23-24">
-        {tokenData.TokenClass === 'Admin' && <SeriesList apiServer={apiServer} />}
-        {tokenData.TokenClass === 'User' && <UserView 
-          apiServer={apiServer} 
-          seriesid={tokenData.Otherid} 
-          userid={tokenData.Userid} />}
-        </div>
-      </div>
-    </div>
-  );
+  globalData.sessionUser = tokenData.FirstName + ' ' + tokenData.LastName;
+  globalData.sessionRole = tokenData.TokenClass;
+  if (tokenData.TokenClass === 'Admin') { 
+    return (<Navigate to={'/admin'} />);
+  }
+  if (tokenData.TokenClass === 'User') {
+    return (<Navigate to={'/user/' + tokenData.Otherid +'/' + tokenData.Userid} />);
+  }
 }
 
 export default Start;

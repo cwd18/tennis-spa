@@ -2,14 +2,17 @@ import 'purecss/build/pure.css';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Start from './Start';
+import AdminView from './AdminView';
+import UserView from './UserView';
 
 function App() {
-  const apiServer = 'http://localhost:8888';
 
   return (
     <div>
       <Routes>
-        <Route path="/start/:token" element={<Start apiServer={apiServer}/>} />
+        <Route path="/start/:token" element={<Start />} />
+        <Route path="/admin" element={<AdminView />} />
+        <Route path="/user/:seriesid/:userid" element={<UserView />} />
       </Routes>
     </div>
   );

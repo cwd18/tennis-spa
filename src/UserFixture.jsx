@@ -4,14 +4,16 @@ import UserBookingTable from './UserBookingTable';
 import PlayerList from './PlayerList';
 import BookedCourts from './BookedCourts';
 import BookingRequests from './BookingRequests';
+import globalData from './GlobalData';
 
-function UserFixture({apiServer, fixtureid, userid, viewTime}) {
+function UserFixture({ fixtureid, userid, viewTime }) {
     const [wantsToPlay, setWantsToPlay] = useState();
     const [participantData, setParticipantData] = useState({});
     const [playerLists, setPlayerLists] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [bookingData, setBookingData] = useState([]);
     const [bookingRequests, setBookingRequests] = useState([]);
+    const { apiServer } = globalData;
 
     const getPlayerLists = () => {
         fetch(apiServer + '/api/playerLists/' + fixtureid, {credentials: 'include'})

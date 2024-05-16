@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import globalData from './GlobalData';
 
-function SeriesList({apiServer}) {
+function SeriesList() {
     const [seriesData, setSeriesData] = useState([]);
     useEffect(() => {
-        fetch(apiServer + '/api/serieslist', {credentials: 'include'})
+        fetch(globalData.apiServer + '/api/serieslist', {credentials: 'include'})
         .then(response => response.json())
         .then(response => setSeriesData(response));
-    }, [apiServer]);
+    }, []);
     return (
       <div>
         <h2>Series List</h2>
