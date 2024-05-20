@@ -42,8 +42,7 @@ function UserView() {
                         fixtures={fixtures}
                         fixtureIndex={fixtureIndex}
                         handleFixtureSwitch={handleFixtureSwitch}
-                        setViewTime={setViewTime}
-                        viewTime={viewTime} />
+                        setViewTime={setViewTime} />
                     <UserFixture 
                         fixtureid={fixtureid} 
                         userid={userid}
