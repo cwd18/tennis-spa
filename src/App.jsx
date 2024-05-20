@@ -9,7 +9,7 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/newstart/:token" element={<Start />} />
+        <Route path="/start/:token" element={<Start />} />
         <Route path="/admin" element={<AdminView />} />
         <Route path="/user/:seriesid/:userid" element={<UserView />} />
       </Routes>

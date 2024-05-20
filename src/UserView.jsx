@@ -52,6 +52,7 @@ function UserView() {
                         viewTime={viewTime} />
                 </div>
             </div>
+            <br /><br />
         </div>
     );
 }
