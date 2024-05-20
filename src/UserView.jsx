@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import Bar from './Bar';
+import FixtureHead from './FixtureHead';
 import UserFixture from './UserFixture';   
 import globalData from './GlobalData';
 
@@ -26,26 +27,23 @@ function UserView() {
             setFixtureid(response[index].Fixtureid)
         })
     }, [seriesid]);
-    const handleFixtureSwtch = (index) => { 
+    const handleFixtureSwitch = (index) => { 
         setFixtureIndex(index);
         setFixtureid(fixtures[index].Fixtureid);
     }
     if (!fixtures || fixtures.length === 0) return null;
-    const f = fixtures[fixtureIndex];
-    const description = f.description;
-    const FixtureTime = f.FixtureTime;
     return (
         <div>
             <Bar />
             <div className="pure-g">
                 <div className="pure-u-1-24"></div>
                 <div className="pure-u-23-24">
-                    <h2>{description + ' at '}
-                    <span style={{ color: 'red' }}> {FixtureTime}</span></h2>
-                    <button className="pure-button button-margin-right" onClick={() => handleFixtureSwtch((fixtureIndex + 1) % 2)}>
-                        Switch to {fixtures[(fixtureIndex+1)%2].description}</button>
-                    <button className="pure-button" onClick={() => setViewTime(viewTime + 1)}>
-                        Refresh</button>
+                    <FixtureHead
+                        fixtures={fixtures}
+                        fixtureIndex={fixtureIndex}
+                        handleFixtureSwitch={handleFixtureSwitch}
+                        setViewTime={setViewTime}
+                        viewTime={viewTime} />
                     <UserFixture 
                         fixtureid={fixtureid} 
                         userid={userid}
