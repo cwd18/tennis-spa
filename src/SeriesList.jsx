@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import globalData from './GlobalData';
+import { Link } from 'react-router-dom';
 
 function SeriesList() {
     const [seriesData, setSeriesData] = useState([]);
@@ -16,7 +17,7 @@ function SeriesList() {
           <tbody>
             {seriesData.map((item, index) => (
               <tr key={index}>
-                <td>{item.description}</td>
+                <td><Link to={"/owner/" + item.Seriesid}>{item.description}</Link></td>
                 <td style={{ color: item.AutoEmail ? 'red' : 'black' }}>
                   {item.AutoEmail ? 'Enabled' : 'Disabled'}
                   </td>

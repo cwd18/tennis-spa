@@ -1,6 +1,6 @@
 import Bar from './Bar';
-import SeriesList from './SeriesList';
 import globalData from './GlobalData';
+import SeriesList from './SeriesList';
 
 function AdminView() {
         return (
