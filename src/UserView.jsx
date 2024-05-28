@@ -2,13 +2,13 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import Bar from './Bar';
 import FixtureHead from './FixtureHead';
-import UserFixture from './UserFixture';   
+import UserInput from './UserInput';   
+import FixtureBody from './FixtureBody';
 import globalData from './GlobalData';
 
 function UserView() {
     const [fixtures, setFixtures] = useState([]);
     const [fixtureIndex, setFixtureIndex] = useState();
-    const [fixtureid, setFixtureid] = useState();
     const [viewTime, setViewTime] = useState(0);
 
     let params = useParams();
@@ -24,14 +24,13 @@ function UserView() {
             // show the next fixture if it's more than 1 day away, otherwise show the latest fixture
             const index = daysToNextFixture > 1 ? 0 : 1;
             setFixtureIndex(index);
-            setFixtureid(response[index].Fixtureid)
         })
     }, [seriesid]);
     const handleFixtureSwitch = (index) => { 
         setFixtureIndex(index);
-        setFixtureid(fixtures[index].Fixtureid);
     }
     if (!fixtures || fixtures.length === 0) return null;
+    const { Fixtureid, inBookingWindow, bookingDateYmd } = fixtures[fixtureIndex];
     return (
         <div>
             <Bar />
@@ -43,10 +42,17 @@ function UserView() {
                         fixtureIndex={fixtureIndex}
                         handleFixtureSwitch={handleFixtureSwitch}
                         setViewTime={setViewTime} />
-                    <UserFixture 
-                        fixtureid={fixtureid} 
+                    <UserInput 
+                        fixtureid={Fixtureid} 
+                        inBookingWindow={inBookingWindow}
                         userid={userid}
-                        viewTime={viewTime} />
+                        viewTime={viewTime}
+                        setViewTime={setViewTime} />
+                    <FixtureBody
+                        fixtureid={Fixtureid}
+                        viewTime={viewTime}
+                        inBookingWindow={inBookingWindow}
+                        bookingDateYmd={bookingDateYmd} />
                 </div>
             </div>
             <br /><br />

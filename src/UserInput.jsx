@@ -1,31 +1,13 @@
 import { useState, useEffect } from "react";
 import WantsToPlay from './WantsToPlay';   
-import UserBookingTable from './UserBookingTable';
-import PlayerList from './PlayerList';
-import BookedCourts from './BookedCourts';
-import BookingRequests from './BookingRequests';
+import UserBookingTable from './UserBookingTable'; 
 import globalData from './GlobalData';
 
-function UserFixture({ fixtureid, userid, viewTime }) {
+function UserInput({ fixtureid, inBookingWindow, userid, viewTime, setViewTime }) {
     const [wantsToPlay, setWantsToPlay] = useState();
     const [participantData, setParticipantData] = useState({});
-    const [playerLists, setPlayerLists] = useState([]);
-    const [bookings, setBookings] = useState([]);
     const [bookingData, setBookingData] = useState([]);
-    const [bookingRequests, setBookingRequests] = useState([]);
     const { apiServer } = globalData;
-
-    const getPlayerLists = () => {
-        fetch(apiServer + '/api/playerLists/' + fixtureid, {credentials: 'include'})
-        .then(response => response.json())
-        .then(setPlayerLists);
-    }
-
-    const getBookingViewGrid = () => {
-        fetch(apiServer + '/api/bookingViewGrid/' + fixtureid, {credentials: 'include'})
-        .then(response => response.json())
-        .then(setBookings);
-    }
 
     useEffect(() => {
         fetch(apiServer + '/api/participantData/' + fixtureid +'/' + userid, {credentials: 'include'})
@@ -39,14 +21,7 @@ function UserFixture({ fixtureid, userid, viewTime }) {
         .then(response => response.json())
         .then(setBookingData);
 
-        fetch(apiServer + '/api/bookingRequests/' + fixtureid, {credentials: 'include'})
-        .then(response => response.json())
-        .then(setBookingRequests);
-
-        getPlayerLists();
-        getBookingViewGrid();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fixtureid, viewTime]);
+    }, [fixtureid, inBookingWindow, viewTime, userid]);
 
     const handleCourtChange = (event, index) => {
         const { value } = event.target;
@@ -68,7 +43,7 @@ function UserFixture({ fixtureid, userid, viewTime }) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(bookings),
         })
-        .then(getBookingViewGrid);
+        .then(() => setViewTime( vt => vt + 1 ));
     };
 
     const handleWantsToPlayChange = (value) => {
@@ -79,11 +54,11 @@ function UserFixture({ fixtureid, userid, viewTime }) {
             credentials: 'include',
             headers: {'Content-Type': 'application/json'},
         })
-        .then(getPlayerLists);
+        .then(() => setViewTime( vt => vt + 1 ));
     };
 
-    const {inBookingWindow, bookingDateYmd, FirstName} = participantData;
-    if (wantsToPlay === undefined) return null;
+    const { FirstName } = participantData;
+    if (inBookingWindow === undefined) return null;
     return (
         <div>
             <WantsToPlay 
@@ -95,15 +70,8 @@ function UserFixture({ fixtureid, userid, viewTime }) {
             name={FirstName} 
             bookingData={bookingData}
             handleCourtChange={handleCourtChange} />}
-
-            <PlayerList players={playerLists.players} label="Playing" />
-            <PlayerList players={playerLists.reserves} label="Wants to play" />
-            <PlayerList players={playerLists.decliners} label="Can't play" />
-
-            {(inBookingWindow >= 0) && <BookedCourts bookings={bookings} />}
-            {(inBookingWindow < 0) && <BookingRequests bookingRequests={bookingRequests} bookingDate={bookingDateYmd} />}
         </div>
     );
 }
 
-export default UserFixture;
+export default UserInput;
