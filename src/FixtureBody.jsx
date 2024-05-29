@@ -8,7 +8,7 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
   const [playerLists, setPlayerLists] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [bookingRequests, setBookingRequests] = useState([]);
-  const { apiServer } = globalData;
+  const { apiServer, role } = globalData;
 
   useEffect(() => {
     fetch(apiServer + '/api/playerLists/' + fixtureid, {credentials: 'include'})
@@ -33,6 +33,7 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
         <PlayerList players={playerLists.players} label="Playing" />
         <PlayerList players={playerLists.reserves} label="Wants to play" />
         <PlayerList players={playerLists.decliners} label="Can't play" />
+        {(role === 'Admin' || role == 'Owner') && <PlayerList players={playerLists.abstainers} label="Undeclared" />}
 
         {(inBookingWindow >= 0) && <BookedCourts bookings={bookings} />}
         {(inBookingWindow < 0) && <BookingRequests bookingRequests={bookingRequests} bookingDate={bookingDateYmd} />}

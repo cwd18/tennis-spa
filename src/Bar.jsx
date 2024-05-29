@@ -13,6 +13,7 @@ function Bar() {
     useEffect(() => { 
         fetch(globalData.apiServer + '/api/session', {credentials: 'include'}) 
         .then(response => response.json())
+        .then(response => {globalData.role = response.sessionRole; return response;})
         .then(setSessionData);
     } , []);
     if (sessionData.sessionUser === '') {

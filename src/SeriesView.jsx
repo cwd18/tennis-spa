@@ -1,9 +1,11 @@
-function SeriesView( {seriesid} ) {
+import FixtureView from './FixtureView';
 
+function SeriesView( {seriesid} ) {
+  const userid = 0;
   return (
-    <div>
-      <h1>Seriesid: {seriesid}</h1>
-    </div>
+      <div>
+        <FixtureView seriesid={seriesid} userid={userid} />
+      </div>
   );
 }
 
