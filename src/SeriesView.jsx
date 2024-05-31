@@ -1,12 +1,13 @@
-import FixtureView from './FixtureView';
+import { useState } from "react";
+import FixtureView from "./FixtureView";
 
-function SeriesView( {seriesid} ) {
-  const userid = 0;
+function SeriesView({ seriesid }) {
+  const [userid, setUserid] = useState(0);
   return (
-      <div>
-        <FixtureView seriesid={seriesid} userid={userid} />
-      </div>
+    <div>
+      <FixtureView seriesid={seriesid} userid={userid} setUserid={setUserid} />
+    </div>
   );
 }
 
-export default SeriesView; 
+export default SeriesView;

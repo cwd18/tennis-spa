@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import PlayerList from './PlayerList';
-import BookedCourts from './BookedCourts';
-import BookingRequests from './BookingRequests';
-import globalData from './GlobalData';
+import PlayerList from "./PlayerList";
+import BookedCourts from "./BookedCourts";
+import BookingRequests from "./BookingRequests";
+import globalData from "./GlobalData";
 
 function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
   const [playerLists, setPlayerLists] = useState([]);
@@ -11,34 +11,46 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
   const { apiServer, role } = globalData;
 
   useEffect(() => {
-    fetch(apiServer + '/api/playerLists/' + fixtureid, {credentials: 'include'})
-    .then(response => response.json())
-    .then(setPlayerLists);
+    fetch(apiServer + "/api/playerLists/" + fixtureid, {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then(setPlayerLists);
 
     if (inBookingWindow >= 0) {
-      fetch(apiServer + '/api/bookingViewGrid/' + fixtureid, {credentials: 'include'})
-      .then(response => response.json())
-      .then(setBookings);
+      fetch(apiServer + "/api/bookingViewGrid/" + fixtureid, {
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then(setBookings);
     }
 
     if (inBookingWindow < 0) {
-      fetch(apiServer + '/api/bookingRequests/' + fixtureid, {credentials: 'include'})
-      .then(response => response.json())
-      .then(setBookingRequests);
+      fetch(apiServer + "/api/bookingRequests/" + fixtureid, {
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then(setBookingRequests);
     }
-
   }, [fixtureid, viewTime, inBookingWindow, bookingDateYmd]);
   return (
     <div>
-        <PlayerList players={playerLists.players} label="Playing" />
-        <PlayerList players={playerLists.reserves} label="Wants to play" />
-        <PlayerList players={playerLists.decliners} label="Can't play" />
-        {(role === 'Admin' || role == 'Owner') && <PlayerList players={playerLists.abstainers} label="Undeclared" />}
+      <PlayerList players={playerLists.players} label="Playing" />
+      <PlayerList players={playerLists.reserves} label="Wants to play" />
+      <PlayerList players={playerLists.decliners} label="Can't play" />
+      {(role === "Admin" || role == "Owner") && (
+        <PlayerList players={playerLists.abstainers} label="Undeclared" />
+      )}
 
-        {(inBookingWindow >= 0) && <BookedCourts bookings={bookings} />}
-        {(inBookingWindow < 0) && <BookingRequests bookingRequests={bookingRequests} bookingDate={bookingDateYmd} />}
+      {inBookingWindow >= 0 && <BookedCourts bookings={bookings} />}
+      {inBookingWindow < 0 && (
+        <BookingRequests
+          bookingRequests={bookingRequests}
+          bookingDate={bookingDateYmd}
+        />
+      )}
     </div>
-);
+  );
 }
 
 export default FixtureBody;
