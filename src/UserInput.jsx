@@ -82,6 +82,7 @@ function UserInput({
   if (inBookingWindow === undefined) return null;
   return (
     <div>
+      <hr />
       <WantsToPlay
         name={FirstName}
         wantsToPlay={wantsToPlay}
@@ -95,6 +96,7 @@ function UserInput({
           handleCourtChange={handleCourtChange}
         />
       )}
+      <hr />
     </div>
   );
 }

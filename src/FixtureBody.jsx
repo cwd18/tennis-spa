@@ -9,6 +9,7 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
   const [playerLists, setPlayerLists] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [bookingRequests, setBookingRequests] = useState([]);
+  const [absentBookers, setAbsentBookers] = useState([]);
   const { apiServer, role } = globalData;
 
   useEffect(() => {
@@ -24,6 +25,11 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
       })
         .then((response) => response.json())
         .then(setBookings);
+      fetch(apiServer + "/api/absentBookers/" + fixtureid, {
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then(setAbsentBookers);
     }
 
     if (inBookingWindow < 0) {
@@ -43,7 +49,9 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
         <PlayerList players={playerLists.abstainers} label="Undeclared" />
       )}
 
-      {inBookingWindow >= 0 && <BookedCourts bookings={bookings} />}
+      {inBookingWindow >= 0 && (
+        <BookedCourts bookings={bookings} absentBookers={absentBookers} />
+      )}
       {inBookingWindow < 0 && role === "User" && (
         <BookingRequests
           bookingRequests={bookingRequests}
