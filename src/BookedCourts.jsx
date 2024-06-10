@@ -31,11 +31,11 @@ function BookedCourts({ bookings, absentBookers }) {
           <p className="no-space-after">
             <b>Absent bookers...</b>
           </p>
-          <ul>
+          <ol className="lno-space">
             {absentBookers.map((booker, index) => (
               <li key={index}>{booker.ShortName}</li>
             ))}
-          </ul>
+          </ol>
         </div>
       )}
     </div>
