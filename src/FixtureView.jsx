@@ -4,16 +4,24 @@ import UserSelect from "./UserSelect";
 import UserInput from "./UserInput";
 import FixtureBody from "./FixtureBody";
 import globalData from "./GlobalData";
+import ErrorView from "./ErrorView";
+import SetPlaying from "./SetPlaying";
 
 function FixtureView({ seriesid, userid, setUserid }) {
   const [fixtures, setFixtures] = useState([]);
   const [fixtureIndex, setFixtureIndex] = useState();
   const [viewTime, setViewTime] = useState(0);
   const { apiServer, role } = globalData;
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(apiServer + "/api/fixtures/" + seriesid, { credentials: "include" })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          throw new Error("Not authorized");
+        }
+        return response.json();
+      })
       .then((response) => {
         setFixtures(response);
         const daysToNextFixture =
@@ -22,11 +30,22 @@ function FixtureView({ seriesid, userid, setUserid }) {
         // show the next fixture if it's more than 1 day away, otherwise show the latest fixture
         const index = daysToNextFixture > 1 ? 0 : 1;
         setFixtureIndex(index);
+      })
+      .catch((error) => {
+        console.error(error.toString());
+        setError(error.toString());
       });
   }, [seriesid]);
   const handleFixtureSwitch = (index) => {
     setFixtureIndex(index);
   };
+  if (error) {
+    return (
+      <div>
+        <ErrorView error={error} />
+      </div>
+    );
+  }
   if (!fixtures || fixtures.length === 0) return null;
   const { Fixtureid, inBookingWindow, bookingDateYmd } = fixtures[fixtureIndex];
   return (
@@ -52,6 +71,9 @@ function FixtureView({ seriesid, userid, setUserid }) {
           viewTime={viewTime}
           setViewTime={setViewTime}
         />
+      )}
+      {role !== "User" && inBookingWindow === 0 && (
+        <SetPlaying fixtureid={Fixtureid} setViewTime={setViewTime} />
       )}
       <FixtureBody
         fixtureid={Fixtureid}
