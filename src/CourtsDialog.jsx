@@ -32,7 +32,7 @@ function CourtsDialog({ type, title, courts, setCourts }) {
 
   if (editMode) {
     return (
-      <div ref={dialog}>
+      <div className="pure-form" ref={dialog}>
         <label>
           {title}: &nbsp;
           <input
@@ -41,12 +41,12 @@ function CourtsDialog({ type, title, courts, setCourts }) {
             value={newCourts}
             onChange={(e) => setNewCourts(e.target.value)}
           />
-        </label>{" "}
-        &nbsp;
+        </label>
+        &emsp;
         <a href="#" onClick={exitEdit}>
           Cancel
         </a>
-        {" | "}
+        &nbsp;|&nbsp;
         <a
           href="#"
           onClick={() => {
@@ -56,7 +56,7 @@ function CourtsDialog({ type, title, courts, setCourts }) {
         >
           Update
         </a>
-        {" | "}
+        &nbsp;|&nbsp;
         <a
           href="#"
           onClick={() => {
@@ -73,7 +73,7 @@ function CourtsDialog({ type, title, courts, setCourts }) {
   }
   return (
     <div>
-      {title}: {courts} &nbsp;
+      {title}: {courts} &emsp;
       <a href="#" onClick={enterEdit}>
         Edit
       </a>
