@@ -1,3 +1,4 @@
+import CourtsView from "./CourtsView";
 import globalData from "./GlobalData";
 
 function FixtureHead({
@@ -8,7 +9,8 @@ function FixtureHead({
 }) {
   if (!fixtures || fixtures.length === 0) return null;
   const f = fixtures[fixtureIndex];
-  const { FixtureTime, FixtureCourts, TargetCourts, description } = f;
+  const { Fixtureid, FixtureTime, FixtureCourts, TargetCourts, description } =
+    f;
   const { role } = globalData;
   return (
     <div>
@@ -17,10 +19,12 @@ function FixtureHead({
         <span style={{ color: "red" }}> {FixtureTime}</span>
       </h2>
       {role !== "User" && (
-        <div>
-          <p>Courts: {FixtureCourts}</p>
-          <p>Courts to book: {TargetCourts}</p>
-        </div>
+        <CourtsView
+          fixtureid={Fixtureid}
+          FixtureCourts={FixtureCourts}
+          TargetCourts={TargetCourts}
+          setViewTime={setViewTime}
+        />
       )}
       <button
         className="pure-button button-margin-right"

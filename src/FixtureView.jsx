@@ -35,7 +35,7 @@ function FixtureView({ seriesid, userid, setUserid }) {
         console.error(error.toString());
         setError(error.toString());
       });
-  }, [seriesid]);
+  }, [seriesid, viewTime]);
   const handleFixtureSwitch = (index) => {
     setFixtureIndex(index);
   };
