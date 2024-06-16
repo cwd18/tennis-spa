@@ -33,7 +33,7 @@ function BookedCourts({ bookings, absentBookers }) {
           </p>
           <ol className="lno-space">
             {absentBookers.map((booker, index) => (
-              <li key={index}>{booker.ShortName}</li>
+              <li key={index}>{booker.FirstName + " " + booker.LastName}</li>
             ))}
           </ol>
         </div>
