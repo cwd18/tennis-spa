@@ -3,7 +3,7 @@ import PlayerList from "./PlayerList";
 import BookedCourts from "./BookedCourts";
 import BookingRequests from "./BookingRequests";
 import globalData from "./GlobalData";
-import BookingRequestsTable from "./BookingRequestsTable";
+import BookingRequestsEditable from "./BookingRequestsEditable";
 
 function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
   const [playerLists, setPlayerLists] = useState([]);
@@ -59,7 +59,7 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
         />
       )}
       {inBookingWindow < 0 && role !== "User" && (
-        <BookingRequestsTable
+        <BookingRequestsEditable
           fixtureid={fixtureid}
           bookingDate={bookingDateYmd}
         />

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import CountdownTimer from "./CountdownTimer";
 import globalData from "./GlobalData";
 
-function BookingRequestsTable({ fixtureid, bookingDate }) {
+function BookingRequestsEditable({ fixtureid, bookingDate }) {
   const { apiServer } = globalData;
   const [bookingData, setBookingData] = useState([]);
   const [users, setUsers] = useState([]);
@@ -97,4 +97,4 @@ function BookingRequestsTable({ fixtureid, bookingDate }) {
   );
 }
 
-export default BookingRequestsTable;
+export default BookingRequestsEditable;
