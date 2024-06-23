@@ -13,7 +13,7 @@ function BookingRequestsEditable({ fixtureid, bookingDate }) {
     })
       .then((response) => response.json())
       .then((response) => {
-        response.unshift({ userid: 0, ShortName: "None" });
+        response.unshift({ Userid: 0, ShortName: "None" });
         setUsers(response);
       });
     fetch(apiServer + "/api/bookingRequestsTable/" + fixtureid, {
@@ -39,7 +39,8 @@ function BookingRequestsEditable({ fixtureid, bookingDate }) {
       court: item.court,
       userid: item.userid,
     }));
-    fetch(apiServer + "/api/bookingRequests/" + fixtureid, {
+    fetch(apiServer + "/api/bookings/Request/" + fixtureid, {
+      credentials: "include",
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -79,6 +80,7 @@ function BookingRequestsEditable({ fixtureid, bookingDate }) {
                   {users
                     .filter(
                       (user, index) =>
+                        user.Userid == 0 ||
                         user.Userid == item.userid ||
                         !bookingDataUserids.includes(user.Userid)
                     )

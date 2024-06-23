@@ -89,7 +89,7 @@ function UserInput({
         handleWantsToPlayChange={handleWantsToPlayChange}
       />
 
-      {inBookingWindow === 0 && (
+      {inBookingWindow >= 0 && (
         <UserBookingTable
           name={FirstName}
           bookingData={bookingData}

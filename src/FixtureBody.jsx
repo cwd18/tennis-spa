@@ -33,7 +33,7 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
     }
 
     if (inBookingWindow < 0) {
-      fetch(apiServer + "/api/bookingRequests/" + fixtureid, {
+      fetch(apiServer + "/api/bookings/Request/" + fixtureid, {
         credentials: "include",
       })
         .then((response) => response.json())
