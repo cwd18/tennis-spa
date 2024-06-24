@@ -6,6 +6,7 @@ import FixtureBody from "./FixtureBody";
 import globalData from "./GlobalData";
 import ErrorView from "./ErrorView";
 import SetPlaying from "./SetPlaying";
+import CopyEmails from "./CopyEmails";
 
 function FixtureView({ seriesid, userid, setUserid }) {
   const [fixtures, setFixtures] = useState([]);
@@ -83,6 +84,7 @@ function FixtureView({ seriesid, userid, setUserid }) {
         inBookingWindow={inBookingWindow}
         bookingDateYmd={bookingDateYmd}
       />
+      {role !== "User" && <CopyEmails fixtureid={Fixtureid} />}
     </div>
   );
 }
