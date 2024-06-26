@@ -1,7 +1,9 @@
 import { useState } from "react";
+import globalData from "./GlobalData";
 
 function BookedCourts({ title, bookings }) {
   const [cancelling, setCancelling] = useState("");
+  const { role } = globalData;
 
   if (!bookings || bookings.length === 0) {
     return null;
@@ -33,7 +35,7 @@ function BookedCourts({ title, bookings }) {
               {row.map((cell, index) => (
                 <td
                   onClick={(e) => {
-                    if (e.detail === 2 && index < width - 1)
+                    if (role !== "User" && e.detail === 2 && index < width - 1)
                       handleDoubleClick(index, cell);
                   }}
                   key={index}
