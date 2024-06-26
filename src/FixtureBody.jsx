@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import PlayerList from "./PlayerList";
 import BookedCourts from "./BookedCourts";
+import AbsentBookers from "./AbsentBookers";
 import BookingRequests from "./BookingRequests";
 import globalData from "./GlobalData";
 import BookingRequestsEditable from "./BookingRequestsEditable";
@@ -8,6 +9,7 @@ import BookingRequestsEditable from "./BookingRequestsEditable";
 function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
   const [playerLists, setPlayerLists] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [bookingsToCancel, setBookingsToCancel] = useState([]);
   const [bookingRequests, setBookingRequests] = useState([]);
   const [absentBookers, setAbsentBookers] = useState([]);
   const { apiServer, role } = globalData;
@@ -20,11 +22,16 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
       .then(setPlayerLists);
 
     if (inBookingWindow >= 0) {
-      fetch(apiServer + "/api/bookingViewGrid/" + fixtureid, {
+      fetch(apiServer + "/api/bookingViewGrid/Booked/" + fixtureid, {
         credentials: "include",
       })
         .then((response) => response.json())
         .then(setBookings);
+      fetch(apiServer + "/api/bookingViewGrid/Cancel/" + fixtureid, {
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then(setBookingsToCancel);
       fetch(apiServer + "/api/absentBookers/" + fixtureid, {
         credentials: "include",
       })
@@ -50,7 +57,14 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
       )}
 
       {inBookingWindow >= 0 && (
-        <BookedCourts bookings={bookings} absentBookers={absentBookers} />
+        <Fragment>
+          <BookedCourts title="Booked courts..." bookings={bookings} />
+          <BookedCourts
+            title="Booked courts to cancel..."
+            bookings={bookingsToCancel}
+          />
+          <AbsentBookers absentBookers={absentBookers} />
+        </Fragment>
       )}
       {inBookingWindow < 0 && role === "User" && (
         <BookingRequests

@@ -1,12 +1,23 @@
-function BookedCourts({ bookings, absentBookers }) {
+import { useState } from "react";
+
+function BookedCourts({ title, bookings }) {
+  const [cancelling, setCancelling] = useState("");
+
   if (!bookings || bookings.length === 0) {
     return null;
   }
   const [header, ...rows] = bookings;
+  const width = header.length;
+  const handleDoubleClick = (index, cell) => {
+    setCancelling(`court: ${cell} at ${header[index]}`);
+  };
+  if (rows.length === 0) {
+    return null;
+  }
   return (
     <div>
       <p className="no-space-after">
-        <b>Booked courts...</b>
+        <b>{title}</b>
       </p>
       <table className="pure-table">
         <thead>
@@ -20,24 +31,21 @@ function BookedCourts({ bookings, absentBookers }) {
           {rows.map((row, index) => (
             <tr key={index}>
               {row.map((cell, index) => (
-                <td key={index}>{cell}</td>
+                <td
+                  onClick={(e) => {
+                    if (e.detail === 2 && index < width - 1)
+                      handleDoubleClick(index, cell);
+                  }}
+                  key={index}
+                >
+                  {cell}
+                </td>
               ))}
             </tr>
           ))}
         </tbody>
       </table>
-      {absentBookers.length !== 0 && (
-        <div>
-          <p className="no-space-after">
-            <b>Absent bookers...</b>
-          </p>
-          <ol className="lno-space">
-            {absentBookers.map((booker, index) => (
-              <li key={index}>{booker.FirstName + " " + booker.LastName}</li>
-            ))}
-          </ol>
-        </div>
-      )}
+      {cancelling !== "" && <p>Cancelling {cancelling}</p>}
     </div>
   );
 }
