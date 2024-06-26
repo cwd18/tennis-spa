@@ -4,6 +4,7 @@ import { useState } from "react";
 function CopyEmails({ fixtureid }) {
   const { apiServer } = globalData;
   const [copying, setCopying] = useState(false);
+  const [copied, setCopied] = useState(false); // Added state for copied message
 
   const copyEmailsToClipboard = () => {
     setCopying(true);
@@ -14,6 +15,8 @@ function CopyEmails({ fixtureid }) {
       .then((response) => {
         navigator.clipboard.writeText(response);
         setCopying(false);
+        setCopied(true); // Set copied state to true after successful copy
+        setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
       });
   };
 
@@ -23,6 +26,8 @@ function CopyEmails({ fixtureid }) {
       <button className="pure-button" onClick={copyEmailsToClipboard}>
         {copying ? "Copying..." : "Copy emails to clipboard"}
       </button>
+      {copied && <p>Emails copied to clipboard</p>}{" "}
+      {/* Display copied message if copied state is true */}
     </div>
   );
 }
