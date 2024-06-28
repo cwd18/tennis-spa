@@ -57,6 +57,7 @@ function FixtureView({ seriesid, userid, setUserid }) {
         fixtures={fixtures}
         fixtureIndex={fixtureIndex}
         handleFixtureSwitch={handleFixtureSwitch}
+        viewTime={viewTime}
         setViewTime={setViewTime}
       />
       {role !== "User" && (

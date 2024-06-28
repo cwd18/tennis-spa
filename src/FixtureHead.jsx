@@ -1,12 +1,22 @@
 import CourtsView from "./CourtsView";
 import globalData from "./GlobalData";
+import { useEffect, useState } from "react";
 
 function FixtureHead({
   fixtures,
   fixtureIndex,
   handleFixtureSwitch,
+  viewTime,
   setViewTime,
 }) {
+  const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {
+    if (refreshing) {
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 1000);
+    }
+  }, [viewTime]);
   if (!fixtures || fixtures.length === 0) return null;
   const f = fixtures[fixtureIndex];
   const { Fixtureid, FixtureTime, FixtureCourts, TargetCourts, description } =
@@ -34,9 +44,12 @@ function FixtureHead({
       </button>
       <button
         className="pure-button"
-        onClick={() => setViewTime((vt) => vt + 1)}
+        onClick={() => {
+          setViewTime((vt) => vt + 1);
+          setRefreshing(true);
+        }}
       >
-        Refresh
+        {refreshing ? "Refreshing" : "Refresh"}
       </button>
     </div>
   );
