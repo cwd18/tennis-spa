@@ -1,28 +1,17 @@
-import { useEffect, useState } from "react";
+// Display the header bar with the user name and role
+// In the Admin role, clicking the bar navigates to the admin entry point
 import globalData from "./GlobalData";
 import { useNavigate } from "react-router-dom";
 
 function Bar() {
-  const [sessionData, setSessionData] = useState({
-    sessionUser: "",
-    sessionRole: "",
-  });
   const navigate = useNavigate();
+  const { role, name } = globalData;
   const handleClick = () => {
-    if (sessionData.sessionRole === "Admin") {
+    if (role === "Admin") {
       navigate("/admin"); // Navigate to the admin entry point
     }
   };
-  useEffect(() => {
-    fetch(globalData.apiServer + "/api/session", { credentials: "include" })
-      .then((response) => response.json())
-      .then((response) => {
-        globalData.role = response.sessionRole;
-        return response;
-      })
-      .then(setSessionData);
-  }, []);
-  if (sessionData.sessionUser === "") {
+  if (name === "") {
     return null;
   }
   return (
@@ -32,10 +21,7 @@ function Bar() {
       onClick={handleClick}
     >
       <p style={{ marginLeft: "25px" }}>
-        {sessionData.sessionUser}{" "}
-        {sessionData.sessionRole === "User" || sessionData.sessionRole === ""
-          ? ""
-          : " (" + sessionData.sessionRole + ")"}
+        {name} {role === "User" || role === "" ? "" : " (" + role + ")"}
       </p>
     </div>
   );
