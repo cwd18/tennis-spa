@@ -1,8 +1,7 @@
 import { useState } from "react";
 import globalData from "./GlobalData";
 
-function BookedCourts({ title, bookings }) {
-  const [cancelling, setCancelling] = useState("");
+function BookedCourts({ title, bookings, bookingToggler }) {
   const { role } = globalData;
 
   if (!bookings || bookings.length === 0) {
@@ -11,7 +10,7 @@ function BookedCourts({ title, bookings }) {
   const [header, ...rows] = bookings;
   const width = header.length;
   const handleDoubleClick = (index, cell) => {
-    setCancelling(`court: ${cell} at ${header[index]}`);
+    bookingToggler(header[index], cell);
   };
   if (rows.length === 0) {
     return null;
@@ -47,7 +46,6 @@ function BookedCourts({ title, bookings }) {
           ))}
         </tbody>
       </table>
-      {cancelling !== "" && <p>Cancelling {cancelling}</p>}
     </div>
   );
 }

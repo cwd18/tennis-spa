@@ -82,6 +82,7 @@ function FixtureView({ seriesid, userid, setUserid }) {
       <FixtureBody
         fixtureid={Fixtureid}
         viewTime={viewTime}
+        setViewTime={setViewTime}
         inBookingWindow={inBookingWindow}
         bookingDateYmd={bookingDateYmd}
       />

@@ -6,13 +6,28 @@ import BookingRequests from "./BookingRequests";
 import globalData from "./GlobalData";
 import BookingRequestsEditable from "./BookingRequestsEditable";
 
-function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
+function FixtureBody({
+  fixtureid,
+  viewTime,
+  setViewTime,
+  inBookingWindow,
+  bookingDateYmd,
+}) {
   const [playerLists, setPlayerLists] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [bookingsToCancel, setBookingsToCancel] = useState([]);
   const [bookingRequests, setBookingRequests] = useState([]);
   const [absentBookers, setAbsentBookers] = useState([]);
   const { apiServer, role } = globalData;
+  const bookingToggler = (time, court) => {
+    fetch(
+      apiServer + "/api/toggleBooking/" + fixtureid + "/" + time + "/" + court,
+      {
+        credentials: "include",
+        method: "PUT",
+      }
+    ).then(() => setViewTime((vt) => vt + 1));
+  };
 
   useEffect(() => {
     fetch(apiServer + "/api/playerLists/" + fixtureid, {
@@ -58,10 +73,15 @@ function FixtureBody({ fixtureid, viewTime, inBookingWindow, bookingDateYmd }) {
 
       {inBookingWindow >= 0 && (
         <Fragment>
-          <BookedCourts title="Booked courts..." bookings={bookings} />
+          <BookedCourts
+            title="Booked courts..."
+            bookings={bookings}
+            bookingToggler={bookingToggler}
+          />
           <BookedCourts
             title="Booked courts to cancel..."
             bookings={bookingsToCancel}
+            bookingToggler={bookingToggler}
           />
           <AbsentBookers absentBookers={absentBookers} />
         </Fragment>
