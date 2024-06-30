@@ -13,7 +13,7 @@ function UserInput({
   const [wantsToPlay, setWantsToPlay] = useState();
   const [participantData, setParticipantData] = useState({});
   const [bookingData, setBookingData] = useState([]);
-  const { apiServer } = globalData;
+  const { apiServer, role } = globalData;
 
   useEffect(() => {
     fetch(apiServer + "/api/participantData/" + fixtureid + "/" + userid, {
@@ -78,7 +78,7 @@ function UserInput({
     ).then(() => setViewTime((vt) => vt + 1));
   };
 
-  const { FirstName } = participantData;
+  const { FirstName, seriesLink } = participantData;
   if (inBookingWindow === undefined) return null;
   return (
     <div>
@@ -95,6 +95,11 @@ function UserInput({
           bookingData={bookingData}
           handleCourtChange={handleCourtChange}
         />
+      )}
+      {role !== "User" && (
+        <p>
+          <a href={seriesLink}>{FirstName + " personal series link"}</a>
+        </p>
       )}
       <hr />
     </div>
