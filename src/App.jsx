@@ -7,6 +7,7 @@ import Start from "./Start";
 import AdminView from "./AdminView";
 import UserView from "./UserView";
 import OwnerView from "./OwnerView";
+import UserList from "./UserList";
 
 function App() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
         <Route path="/admin" element={<AdminView />} />
         <Route path="/user/:seriesid/:userid" element={<UserView />} />
         <Route path="/owner/:seriesid" element={<OwnerView />} />
+        <Route path="/userlist/:fixtureid" element={<UserList />} />
       </Routes>
     </div>
   );

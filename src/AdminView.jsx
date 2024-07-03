@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
 import Bar from "./Bar";
 import globalData from "./GlobalData";
 import SeriesList from "./SeriesList";
@@ -16,6 +17,13 @@ function AdminView() {
             <Fragment>
               <SeriesList />
               <br />
+              <Link
+                to="/userlist/0"
+                className="pure-button pure-button-primary"
+              >
+                User List
+              </Link>
+              <br />
               <br />
               <a
                 rel="noopener noreferrer"
@@ -24,6 +32,8 @@ function AdminView() {
               >
                 Legacy admin tab
               </a>
+              <br />
+              <br />
             </Fragment>
           )}
           {role !== "Admin" && (
