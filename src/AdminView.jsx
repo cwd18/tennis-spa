@@ -17,10 +17,7 @@ function AdminView() {
             <Fragment>
               <SeriesList />
               <br />
-              <Link
-                to="/userlist/0"
-                className="pure-button pure-button-primary"
-              >
+              <Link to="/userlist/0" className="pure-button">
                 User List
               </Link>
               <br />

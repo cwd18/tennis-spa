@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import FixtureHead from "./FixtureHead";
 import UserSelect from "./UserSelect";
 import UserInput from "./UserInput";
@@ -7,6 +7,7 @@ import globalData from "./GlobalData";
 import ErrorView from "./ErrorView";
 import SetPlaying from "./SetPlaying";
 import CopyEmails from "./CopyEmails";
+import { Link } from "react-router-dom";
 
 function FixtureView({ seriesid, userid, setUserid }) {
   const [fixtures, setFixtures] = useState([]);
@@ -86,7 +87,15 @@ function FixtureView({ seriesid, userid, setUserid }) {
         inBookingWindow={inBookingWindow}
         bookingDateYmd={bookingDateYmd}
       />
-      {role !== "User" && <CopyEmails fixtureid={Fixtureid} />}
+      {role !== "User" && (
+        <Fragment>
+          <CopyEmails fixtureid={Fixtureid} />
+          <br />
+          <Link to={"/userlist/" + Fixtureid} className="pure-button">
+            User List
+          </Link>
+        </Fragment>
+      )}
     </div>
   );
 }
