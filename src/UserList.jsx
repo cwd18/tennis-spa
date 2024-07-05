@@ -2,11 +2,14 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import globalData from "./GlobalData";
 import Bar from "./Bar";
+import UserDialog from "./UserDialog";
 
 function UserList() {
   const [userList, setUserList] = useState([]);
   const [fixtureData, setFixtureData] = useState({});
-  const { apiServer } = globalData;
+  const [dialog, setDialog] = useState(false);
+  const [editIndex, SetEditIndex] = useState(0);
+  const { apiServer, role } = globalData;
   let params = useParams();
   let fixtureid = Number(params["fixtureid"]);
   useEffect(() => {
@@ -20,6 +23,13 @@ function UserList() {
         setFixtureData(fixtureData);
       });
   }, []);
+  const handleDoubleClick = (index) => {
+    SetEditIndex(index);
+    setDialog(true);
+  };
+  const cancelDialog = () => {
+    setDialog(false);
+  };
   let heading = "Tennis users";
   let backLink = "/admin";
   if (fixtureid !== 0) {
@@ -44,9 +54,16 @@ function UserList() {
                 </tr>
               </thead>
               <tbody>
-                {userList.map((u) => (
+                {userList.map((u, index) => (
                   <tr key={u.Userid}>
-                    <td>{u.FirstName + " " + u.LastName}</td>
+                    <td
+                      onClick={(e) => {
+                        if (role !== "User" && e.detail === 2)
+                          handleDoubleClick(index);
+                      }}
+                    >
+                      {u.FirstName + " " + u.LastName}
+                    </td>
                     <td>{u.ShortName}</td>
                     <td>{u.Booker ? "Yes" : "No"}</td>
                     <td>{u.EmailAddress}</td>
@@ -58,6 +75,11 @@ function UserList() {
             <Link to={backLink} className="pure-button">
               Back
             </Link>
+            <UserDialog
+              dialog={dialog}
+              userData={userList[editIndex]}
+              cancelDialog={cancelDialog}
+            />
           </div>
         </div>
       </div>
