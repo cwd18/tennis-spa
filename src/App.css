@@ -1,8 +1,12 @@
-.no-space-after {margin-bottom: 0.2em; }
+.no-space-after {
+  margin-bottom: 0.2em;
+}
 
 .lno-space {
-    margin-top: 0;
-    padding-left: 2em;
-  }
-  
-.button-margin-right {margin-right: 4px;}
+  margin-top: 0;
+  padding-left: 2em;
+}
+
+.button-margin-right {
+  margin-right: 6px;
+}

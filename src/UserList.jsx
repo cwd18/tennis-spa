@@ -5,6 +5,7 @@ import Bar from "./Bar";
 import UserDialog from "./UserDialog";
 
 function UserList() {
+  const [viewTime, setViewTime] = useState(0);
   const [userList, setUserList] = useState([]);
   const [fixtureData, setFixtureData] = useState({});
   const [dialog, setDialog] = useState(false);
@@ -22,7 +23,7 @@ function UserList() {
         setUserList(userList);
         setFixtureData(fixtureData);
       });
-  }, []);
+  }, [viewTime]);
   const handleDoubleClick = (index) => {
     SetEditIndex(index);
     setDialog(true);
@@ -79,6 +80,7 @@ function UserList() {
               dialog={dialog}
               userData={userList[editIndex]}
               cancelDialog={cancelDialog}
+              setViewTime={setViewTime}
             />
           </div>
         </div>
