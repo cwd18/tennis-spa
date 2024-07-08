@@ -8,10 +8,15 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
   useEffect(() => {
     if (dialog) {
       ref.current?.showModal();
+      ref.current?.focus();
     } else {
       ref.current?.close();
     }
   }, [dialog, userData]);
+  const cancel = () => {
+    setEdited(false);
+    cancelDialog();
+  };
   const updateUserData = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -24,7 +29,7 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
       },
       body: JSON.stringify(Object.fromEntries(formData.entries())),
     })
-      .then(cancelDialog)
+      .then(cancel)
       .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
   };
   if (!dialog) return null;
@@ -88,14 +93,14 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
             Update
           </button>
         )}
-        <button type="button" className="pure-button" onClick={cancelDialog}>
+        <button type="button" className="pure-button" onClick={cancel}>
           Cancel
         </button>
       </form>
       <br />
       <hr />
       <br />
-      <button className="pure-button" onClick={cancelDialog}>
+      <button className="pure-button" onClick={cancel}>
         Delete this user
       </button>
     </dialog>
