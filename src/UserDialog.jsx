@@ -34,7 +34,7 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
   };
   if (!dialog) return null;
   return (
-    <dialog ref={ref} onCancel={cancelDialog}>
+    <dialog ref={ref} onCancel={cancel}>
       <p>
         <b>Update user</b>
       </p>
