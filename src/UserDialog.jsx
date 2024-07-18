@@ -1,27 +1,36 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Fragment } from "react";
 import globalData from "./GlobalData";
+import ConfirmDialog from "./ConfirmDialog";
 
-function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
+function UserDialog({
+  dialogVisible,
+  userData,
+  fixtureid,
+  cancelDialog,
+  setViewTime,
+}) {
   const [edited, setEdited] = useState(false);
+  const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
   const { apiServer } = globalData;
   const ref = useRef();
   useEffect(() => {
-    if (dialog) {
+    if (dialogVisible) {
       ref.current?.showModal();
       ref.current?.focus();
     } else {
       ref.current?.close();
     }
-  }, [dialog, userData]);
+  }, [dialogVisible, userData]);
   const cancel = () => {
     setEdited(false);
+    setConfirmDialogVisible(false);
     cancelDialog();
   };
   const updateUserData = (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    fetch(apiServer + "/api/user/" + userData.Userid, {
+    fetch(apiServer + "/api/user/" + (userData ? userData.Userid : 0), {
       credentials: "include",
       method: "PUT",
       headers: {
@@ -32,7 +41,19 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
       .then(cancel)
       .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
   };
-  if (!dialog) return null;
+  const deleteUser = () => {
+    setConfirmDialogVisible(false);
+    fetch(apiServer + "/api/user/" + userData.Userid, {
+      credentials: "include",
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(cancel)
+      .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
+  };
+  if (!dialogVisible) return null;
   return (
     <dialog ref={ref} onCancel={cancel}>
       <p>
@@ -45,7 +66,7 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
             <br />
             <input
               name="fname"
-              defaultValue={userData.FirstName}
+              defaultValue={userData ? userData.FirstName : ""}
               onChange={() => setEdited(true)}
             />
           </label>
@@ -56,7 +77,7 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
             <br />
             <input
               name="lname"
-              defaultValue={userData.LastName}
+              defaultValue={userData ? userData.LastName : ""}
               onChange={() => setEdited(true)}
             />
           </label>
@@ -69,7 +90,7 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
               style={{ width: "300px" }}
               type="email"
               name="email"
-              defaultValue={userData.EmailAddress}
+              defaultValue={userData ? userData.EmailAddress : ""}
               onChange={() => setEdited(true)}
             />
           </label>
@@ -79,7 +100,7 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
             <input
               name="booker"
               type="checkbox"
-              defaultChecked={userData.Booker}
+              defaultChecked={userData ? userData.Booker : false}
               onChange={() => setEdited(true)}
             />{" "}
             Booker
@@ -90,7 +111,7 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
             type="submit"
             className="pure-button pure-button-primary button-margin-right"
           >
-            Update
+            {userData ? "Update" : "Add"}
           </button>
         )}
         <button type="button" className="pure-button" onClick={cancel}>
@@ -100,9 +121,35 @@ function UserDialog({ dialog, userData, cancelDialog, setViewTime }) {
       <br />
       <hr />
       <br />
-      <button className="pure-button" onClick={cancel}>
-        Delete this user
-      </button>
+      {fixtureid === 0 ? (
+        <Fragment>
+          <button
+            className="pure-button"
+            onClick={() => setConfirmDialogVisible(true)}
+          >
+            Delete user
+          </button>
+          <ConfirmDialog
+            dialogVisible={confirmDialogVisible}
+            message="Are you sure you want to delete this user?"
+            onConfirm={deleteUser}
+            onCancel={() => {
+              setConfirmDialogVisible(false);
+            }}
+          />
+        </Fragment>
+      ) : (
+        <div>
+          <button className="pure-button" onClick={cancel}>
+            Remove user from fixture
+          </button>
+          <br />
+          <br />
+          <button className="pure-button" onClick={cancel}>
+            Remove user from all fixtures
+          </button>
+        </div>
+      )}
     </dialog>
   );
 }

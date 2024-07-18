@@ -7,7 +7,7 @@ function UserListTable({ fixtureid }) {
   const [viewTime, setViewTime] = useState(0);
   const [userList, setUserList] = useState([]);
   const [fixtureData, setFixtureData] = useState({});
-  const [dialog, setDialog] = useState(false);
+  const [dialogVisible, setDialogVisible] = useState(false);
   const [editIndex, SetEditIndex] = useState(0);
   const { apiServer, role } = globalData;
   useEffect(() => {
@@ -23,10 +23,14 @@ function UserListTable({ fixtureid }) {
   }, [viewTime]);
   const handleDoubleClick = (index) => {
     SetEditIndex(index);
-    setDialog(true);
+    setDialogVisible(true);
+  };
+  const addUser = () => {
+    SetEditIndex(null);
+    setDialogVisible(true);
   };
   const cancelDialog = () => {
-    setDialog(false);
+    setDialogVisible(false);
   };
   let heading = "Tennis users";
   let backLink = "/admin";
@@ -65,12 +69,18 @@ function UserListTable({ fixtureid }) {
         </tbody>
       </table>
       <br />
+      <button className="pure-button" onClick={addUser}>
+        Add user
+      </button>
+      <br />
+      <br />
       <Link to={backLink} className="pure-button">
         Back
       </Link>
       <UserDialog
-        dialog={dialog}
+        dialogVisible={dialogVisible}
         userData={userList[editIndex]}
+        fixtureid={fixtureid}
         cancelDialog={cancelDialog}
         setViewTime={setViewTime}
       />
