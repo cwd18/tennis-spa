@@ -41,14 +41,23 @@ function UserDialog({
       .then(cancel)
       .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
   };
-  const deleteUser = () => {
-    fetch(apiServer + "/api/user/" + userData.Userid, {
-      credentials: "include",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+  const deleteUser = (scope) => {
+    fetch(
+      apiServer +
+        "/api/user/" +
+        scope +
+        "/" +
+        fixtureid +
+        "/" +
+        userData.Userid,
+      {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then(cancel)
       .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
   };
@@ -131,20 +140,18 @@ function UserDialog({
           <ConfirmDialog
             dialogVisible={confirmDialogVisible}
             message="Are you sure you want to delete this user?"
-            onConfirm={deleteUser}
-            onCancel={() => {
-              setConfirmDialogVisible(false);
-            }}
+            onConfirm={() => deleteUser("global")}
+            onCancel={() => setConfirmDialogVisible(false)}
           />
         </Fragment>
       ) : (
         <div>
-          <button className="pure-button" onClick={cancel}>
+          <button className="pure-button" onClick={() => deleteUser("fixture")}>
             Remove user from fixture
           </button>
           <br />
           <br />
-          <button className="pure-button" onClick={cancel}>
+          <button className="pure-button" onClick={() => deleteUser("all")}>
             Remove user from all fixtures
           </button>
         </div>

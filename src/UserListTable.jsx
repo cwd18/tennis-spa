@@ -24,6 +24,7 @@ function UserListTable({ fixtureid }) {
         setUserList(userList);
         setFixtureData(fixtureData);
       });
+    if (fixtureid === 0) return;
     fetch(apiServer + "/api/participants/" + fixtureid + "/candidates", {
       credentials: "include",
     })
@@ -44,6 +45,19 @@ function UserListTable({ fixtureid }) {
   };
   const cancelUserDialog = () => {
     setUserDialogVisible(false);
+  };
+  const addCandidates = (selectedUsers) => {
+    fetch(apiServer + "/api/candidates/" + fixtureid, {
+      credentials: "include",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(selectedUsers),
+    }).then(() => {
+      setUsersSelectDialogVisible(false);
+      setViewTime((vt) => vt + 1);
+    });
   };
   let heading = "Tennis users";
   let backLink = "/admin";
@@ -101,7 +115,7 @@ function UserListTable({ fixtureid }) {
         dialogVisible={usersSelectDialogVisible}
         message="Select users to add to the fixture"
         users={candidates}
-        onSelect={() => setUsersSelectDialogVisible(false)}
+        onSelect={(selectedUsers) => addCandidates(selectedUsers)}
         onCancel={() => setUsersSelectDialogVisible(false)}
       />
     </div>

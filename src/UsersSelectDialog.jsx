@@ -16,12 +16,24 @@ function UsersSelectDialog({
       ref.current?.close();
     }
   }, [dialogVisible, message, users]);
+  const processForm = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const selectedUsers = [];
+    for (const key of formData.keys()) {
+      if (key.startsWith("user_")) {
+        selectedUsers.push(formData.get(key));
+      }
+    }
+    onSelect(selectedUsers);
+  };
   return (
     <dialog ref={ref} onCancel={onCancel}>
       <p>
         <b>{message}</b>
       </p>
-      <form onSubmit={onSelect}>
+      <form onSubmit={processForm}>
         {users.map((u, index) => (
           <label key={u.Userid} className="pure-checkbox">
             <input type="checkbox" name={"user_" + u.Userid} value={u.Userid} />
@@ -30,10 +42,7 @@ function UsersSelectDialog({
           </label>
         ))}
         <br />
-        <button
-          className="pure-button pure-button-primary button-margin-right"
-          onClick={onSelect}
-        >
+        <button className="pure-button pure-button-primary button-margin-right">
           Confirm
         </button>
         <button className="pure-button" onClick={onCancel}>
