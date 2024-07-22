@@ -42,7 +42,6 @@ function UserDialog({
       .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
   };
   const deleteUser = () => {
-    setConfirmDialogVisible(false);
     fetch(apiServer + "/api/user/" + userData.Userid, {
       credentials: "include",
       method: "DELETE",

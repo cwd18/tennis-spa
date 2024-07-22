@@ -2,13 +2,17 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import globalData from "./GlobalData";
 import UserDialog from "./UserDialog";
+import UsersSelectDialog from "./UsersSelectDialog";
 
 function UserListTable({ fixtureid }) {
   const [viewTime, setViewTime] = useState(0);
   const [userList, setUserList] = useState([]);
   const [fixtureData, setFixtureData] = useState({});
-  const [dialogVisible, setDialogVisible] = useState(false);
+  const [userDialogVisible, setUserDialogVisible] = useState(false);
+  const [usersSelectDialogVisible, setUsersSelectDialogVisible] =
+    useState(false);
   const [editIndex, SetEditIndex] = useState(0);
+  const [candidates, setCandidates] = useState([]);
   const { apiServer, role } = globalData;
   useEffect(() => {
     fetch(apiServer + "/api/userlist/" + fixtureid, {
@@ -20,17 +24,26 @@ function UserListTable({ fixtureid }) {
         setUserList(userList);
         setFixtureData(fixtureData);
       });
+    fetch(apiServer + "/api/participants/" + fixtureid + "/candidates", {
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((response) => setCandidates(response));
   }, [viewTime]);
   const handleDoubleClick = (index) => {
     SetEditIndex(index);
-    setDialogVisible(true);
+    setUserDialogVisible(true);
   };
   const addUser = () => {
+    if (fixtureid !== 0) {
+      setUsersSelectDialogVisible(true);
+      return;
+    }
     SetEditIndex(null);
-    setDialogVisible(true);
+    setUserDialogVisible(true);
   };
-  const cancelDialog = () => {
-    setDialogVisible(false);
+  const cancelUserDialog = () => {
+    setUserDialogVisible(false);
   };
   let heading = "Tennis users";
   let backLink = "/admin";
@@ -78,11 +91,18 @@ function UserListTable({ fixtureid }) {
         Back
       </Link>
       <UserDialog
-        dialogVisible={dialogVisible}
+        dialogVisible={userDialogVisible}
         userData={userList[editIndex]}
         fixtureid={fixtureid}
-        cancelDialog={cancelDialog}
+        cancelDialog={cancelUserDialog}
         setViewTime={setViewTime}
+      />
+      <UsersSelectDialog
+        dialogVisible={usersSelectDialogVisible}
+        message="Select users to add to the fixture"
+        users={candidates}
+        onSelect={() => setUsersSelectDialogVisible(false)}
+        onCancel={() => setUsersSelectDialogVisible(false)}
       />
     </div>
   );
