@@ -1,9 +1,28 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
+import globalData from "./GlobalData";
 
-function CourtsDialog({ type, title, courts, setCourts }) {
+function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
   const [editMode, setEditMode] = useState(false);
   const [newCourts, setNewCourts] = useState(courts);
   const dialog = useRef();
+  const { apiServer } = globalData;
+  const setCourts = (type, scope, courts) => {
+    fetch(
+      apiServer +
+        "/api/courts/" +
+        fixtureid +
+        "/" +
+        type +
+        "/" +
+        scope +
+        "/" +
+        courts,
+      {
+        method: "PUT",
+        credentials: "include",
+      }
+    ).then(() => setViewTime((vt) => vt + 1));
+  };
 
   const handleOnClick = (event) => {
     if (dialog.current && !event.composedPath().includes(dialog.current)) {

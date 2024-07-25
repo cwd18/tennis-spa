@@ -1,6 +1,7 @@
-import CourtsView from "./CourtsView";
 import globalData from "./GlobalData";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import OwnerDialog from "./OwnerDialog";
+import CourtsDialog from "./CourtsDialog";
 
 function FixtureHead({
   fixtures,
@@ -18,9 +19,15 @@ function FixtureHead({
     }
   }, [viewTime]);
   if (!fixtures || fixtures.length === 0) return null;
-  const f = fixtures[fixtureIndex];
-  const { Fixtureid, FixtureTime, FixtureCourts, TargetCourts, description } =
-    f;
+  const {
+    Fixtureid,
+    FixtureTime,
+    OwnerFirstName,
+    OwnerLastName,
+    FixtureCourts,
+    TargetCourts,
+    description,
+  } = fixtures[fixtureIndex];
   const { role } = globalData;
   return (
     <div>
@@ -29,12 +36,23 @@ function FixtureHead({
         <span style={{ color: "red" }}> {FixtureTime}</span>
       </h2>
       {role !== "User" && (
-        <CourtsView
-          fixtureid={Fixtureid}
-          FixtureCourts={FixtureCourts}
-          TargetCourts={TargetCourts}
-          setViewTime={setViewTime}
-        />
+        <Fragment>
+          <OwnerDialog ownerName={OwnerFirstName + " " + OwnerLastName} />
+          <CourtsDialog
+            fixtureid={Fixtureid}
+            type="courts"
+            title="Courts"
+            courts={FixtureCourts}
+            setViewTime={setViewTime}
+          />
+          <CourtsDialog
+            fixtureid={Fixtureid}
+            type="target"
+            title="Courts to book"
+            courts={TargetCourts}
+            setViewTime={setViewTime}
+          />
+        </Fragment>
       )}
       <button
         className="pure-button button-margin-right"
