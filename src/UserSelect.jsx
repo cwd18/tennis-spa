@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import globalData from "./GlobalData";
 
-function UserSelect({ fixtureid, userid, setUserid }) {
-  const [users, setUsers] = useState([]); // Add useState hook to store fetched users
+function UserSelect({ label, includeNone, fixtureid, userid, setUserid }) {
+  const [users, setUsers] = useState([]);
+  const { apiServer } = globalData;
   useEffect(() => {
-    fetch(globalData.apiServer + "/api/participants/" + fixtureid + "/all", {
+    fetch(apiServer + "/api/participants/" + fixtureid + "/all", {
       credentials: "include",
     })
       .then((response) => response.json())
       .then((response) => {
-        response.unshift({ Userid: 0, ShortName: "None" });
+        if (includeNone) {
+          response.unshift({ Userid: 0, ShortName: "None" });
+        }
         setUsers(response);
       });
   }, []);
@@ -17,11 +20,8 @@ function UserSelect({ fixtureid, userid, setUserid }) {
     return null;
   }
   return (
-    <div>
-      <br />
-      <label htmlFor="userid">
-        <b>User input:</b>{" "}
-      </label>
+    <Fragment>
+      <label htmlFor="userid">{label + " "}</label>
       <select
         value={userid}
         onChange={(event) => setUserid(Number(event.target.value))}
@@ -32,7 +32,7 @@ function UserSelect({ fixtureid, userid, setUserid }) {
           </option>
         ))}
       </select>
-    </div>
+    </Fragment>
   );
 }
 

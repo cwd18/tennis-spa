@@ -22,6 +22,7 @@ function FixtureHead({
   const {
     Fixtureid,
     FixtureTime,
+    FixtureOwner,
     OwnerFirstName,
     OwnerLastName,
     FixtureCourts,
@@ -37,7 +38,12 @@ function FixtureHead({
       </h2>
       {role !== "User" && (
         <Fragment>
-          <OwnerDialog ownerName={OwnerFirstName + " " + OwnerLastName} />
+          <OwnerDialog
+            fixtureid={Fixtureid}
+            ownerid={FixtureOwner}
+            ownerName={OwnerFirstName + " " + OwnerLastName}
+            setViewTime={setViewTime}
+          />
           <CourtsDialog
             fixtureid={Fixtureid}
             type="courts"

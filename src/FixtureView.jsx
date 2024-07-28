@@ -62,11 +62,16 @@ function FixtureView({ seriesid, userid, setUserid }) {
         setViewTime={setViewTime}
       />
       {role !== "User" && (
-        <UserSelect
-          fixtureid={Fixtureid}
-          userid={userid}
-          setUserid={setUserid}
-        />
+        <Fragment>
+          <br />
+          <UserSelect
+            label="User input:"
+            includeNone={true}
+            fixtureid={Fixtureid}
+            userid={userid}
+            setUserid={setUserid}
+          />
+        </Fragment>
       )}
       {userid !== 0 && (
         <UserInput

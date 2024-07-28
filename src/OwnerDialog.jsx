@@ -1,9 +1,11 @@
 import globalData from "./GlobalData";
 import { Fragment, useState, useRef } from "react";
+import UserSelect from "./UserSelect";
 
-function OwnerDialog({ ownerName }) {
-  const { role } = globalData;
+function OwnerDialog({ fixtureid, ownerid, ownerName, setViewTime }) {
+  const { apiServer, role } = globalData;
   const [editMode, setEditMode] = useState(false);
+  const [newOwner, setNewOwner] = useState(ownerid);
   const dialog = useRef();
   const handleOnClick = (event) => {
     if (dialog.current && !event.composedPath().includes(dialog.current)) {
@@ -21,35 +23,49 @@ function OwnerDialog({ ownerName }) {
     return false;
   };
   const updateOwner = (scope) => {
-    console.log("updateOwner", scope);
+    fetch(
+      apiServer + "/api/owner/" + fixtureid + "/" + scope + "/" + newOwner,
+      {
+        method: "PUT",
+        credentials: "include",
+      }
+    ).then(() => {
+      exitEdit();
+      setViewTime((vt) => vt + 1);
+    });
   };
   if (editMode) {
     return (
       <div className="pure-form" ref={dialog}>
-        Owner: {ownerName} &emsp;
-        <a href="#" onClick={exitEdit}>
+        <UserSelect
+          label="Owner:"
+          includeNone={false}
+          fixtureid={fixtureid}
+          userid={newOwner}
+          setUserid={setNewOwner}
+        />
+        &emsp;
+        <button className="link-button" onClick={exitEdit}>
           Cancel
-        </a>
-        &nbsp;|&nbsp;
-        <a
-          href="#"
-          onClick={() => {
-            updateOwner("fixture");
-            return false;
-          }}
-        >
-          Update
-        </a>
-        &nbsp;|&nbsp;
-        <a
-          href="#"
-          onClick={() => {
-            updateOwner("all");
-            return false;
-          }}
-        >
-          Update All
-        </a>
+        </button>
+        {newOwner !== ownerid && (
+          <Fragment>
+            &nbsp;|&nbsp;
+            <button className="link-button" onClick={() => updateOwner("all")}>
+              Update
+            </button>
+            &nbsp;|&nbsp;
+            <button
+              className="link-button"
+              onClick={() => {
+                updateOwner("all");
+                return false;
+              }}
+            >
+              Update All
+            </button>
+          </Fragment>
+        )}
         <br />
         <br />
       </div>
@@ -59,9 +75,9 @@ function OwnerDialog({ ownerName }) {
     <div>
       Owner: {ownerName} &emsp;
       {role === "Admin" && (
-        <a href="#" onClick={enterEdit}>
+        <button className="link-button" onClick={enterEdit}>
           Edit
-        </a>
+        </button>
       )}
       <br />
       <br />

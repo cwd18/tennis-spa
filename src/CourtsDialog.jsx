@@ -83,7 +83,7 @@ function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
             return false;
           }}
         >
-          Update All
+          Update&nbsp;All
         </a>
         <br />
         <br />

@@ -10,3 +10,13 @@
 .button-margin-right {
   margin-right: 6px;
 }
+
+.link-button {
+  background: none;
+  color: blue;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
