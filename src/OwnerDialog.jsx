@@ -14,6 +14,7 @@ function OwnerDialog({ fixtureid, ownerid, ownerName, setViewTime }) {
   };
   const enterEdit = () => {
     setEditMode(true);
+    setNewOwner(ownerid);
     document.body.addEventListener("click", handleOnClick);
     return false;
   };

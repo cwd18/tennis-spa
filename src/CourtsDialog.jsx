@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, Fragment } from "react";
 import globalData from "./GlobalData";
 
 function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
@@ -62,40 +62,44 @@ function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
           />
         </label>
         &emsp;
-        <a href="#" onClick={exitEdit}>
+        <button className="link-button" onClick={exitEdit}>
           Cancel
-        </a>
-        &nbsp;|&nbsp;
-        <a
-          href="#"
-          onClick={() => {
-            updateCourts("fixture");
-            return false;
-          }}
-        >
-          Update
-        </a>
-        &nbsp;|&nbsp;
-        <a
-          href="#"
-          onClick={() => {
-            updateCourts("all");
-            return false;
-          }}
-        >
-          Update&nbsp;All
-        </a>
-        <br />
-        <br />
+        </button>
+        {newCourts !== courts && (
+          <Fragment>
+            X &nbsp;|&nbsp;
+            <button
+              className="link-button"
+              onClick={() => {
+                updateCourts("fixture");
+                return false;
+              }}
+            >
+              Update
+            </button>
+            &nbsp;|&nbsp;
+            <button
+              className="link-button"
+              onClick={() => {
+                updateCourts("all");
+                return false;
+              }}
+            >
+              Update&nbsp;All
+            </button>
+            <br />
+            <br />
+          </Fragment>
+        )}
       </div>
     );
   }
   return (
     <div>
       {title}: {courts} &emsp;
-      <a href="#" onClick={enterEdit}>
+      <button className="link-button" onClick={enterEdit}>
         Edit
-      </a>
+      </button>
       <br />
       <br />
     </div>
