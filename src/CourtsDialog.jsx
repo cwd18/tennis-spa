@@ -89,10 +89,10 @@ function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
             >
               Update&nbsp;All
             </button>
-            <br />
-            <br />
           </Fragment>
         )}
+        <br />
+        <br />
       </div>
     );
   }
