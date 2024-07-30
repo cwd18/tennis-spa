@@ -6,6 +6,9 @@ function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
   const [newCourts, setNewCourts] = useState(courts);
   const dialog = useRef();
   const { apiServer } = globalData;
+  const courtsPattern = new RegExp(
+    "^\\d{1,2}-\\d{1,2}(?:, \\d{1,2}-\\d{1,2})*$"
+  );
   const setCourts = (type, scope, courts) => {
     fetch(
       apiServer +
@@ -42,8 +45,7 @@ function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
     return false;
   };
   const updateCourts = (scope) => {
-    const pattern = new RegExp("\\d{1,2}-\\d{1,2}(?:, \\d{1,2}-\\d{1,2})*");
-    if (newCourts !== courts && pattern.test(newCourts)) {
+    if (newCourts !== courts && courtsPattern.test(newCourts)) {
       setCourts(type, scope, newCourts);
     }
     exitEdit();
@@ -65,9 +67,9 @@ function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
         <button className="link-button" onClick={exitEdit}>
           Cancel
         </button>
-        {newCourts !== courts && (
+        {newCourts !== courts && courtsPattern.test(newCourts) && (
           <Fragment>
-            X &nbsp;|&nbsp;
+            &nbsp;|&nbsp;
             <button
               className="link-button"
               onClick={() => {
