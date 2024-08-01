@@ -15,7 +15,7 @@ function UserSelect({ label, includeNone, fixtureid, userid, setUserid }) {
         }
         setUsers(response);
       });
-  }, []);
+  }, [fixtureid]);
   if (users.length === 0) {
     return null;
   }
