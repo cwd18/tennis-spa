@@ -12,6 +12,7 @@ function Start() {
   useEffect(() => {
     fetch(globalData.apiServer + "/api/start/" + token, {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then((response) => {

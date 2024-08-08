@@ -17,6 +17,7 @@ function UserListTable({ fixtureid }) {
   useEffect(() => {
     fetch(apiServer + "/api/userlist/" + fixtureid, {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then((response) => {
@@ -27,6 +28,7 @@ function UserListTable({ fixtureid }) {
     if (fixtureid === 0) return;
     fetch(apiServer + "/api/participants/" + fixtureid + "/candidates", {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then((response) => setCandidates(response));

@@ -10,6 +10,7 @@ function BookingRequestsEditable({ fixtureid, bookingDate }) {
   useEffect(() => {
     fetch(apiServer + "/api/participants/" + fixtureid + "/bookers", {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then((response) => {
@@ -18,6 +19,7 @@ function BookingRequestsEditable({ fixtureid, bookingDate }) {
       });
     fetch(apiServer + "/api/bookingRequestsTable/" + fixtureid, {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then(setBookingData);

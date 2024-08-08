@@ -7,6 +7,7 @@ function UserSelect({ label, includeNone, fixtureid, userid, setUserid }) {
   useEffect(() => {
     fetch(apiServer + "/api/participants/" + fixtureid + "/all", {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then((response) => {

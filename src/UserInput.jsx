@@ -18,6 +18,7 @@ function UserInput({
   useEffect(() => {
     fetch(apiServer + "/api/participantData/" + fixtureid + "/" + userid, {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then((response) => {
@@ -27,6 +28,7 @@ function UserInput({
 
     fetch(apiServer + "/api/participantBookings/" + fixtureid + "/" + userid, {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then(setBookingData);

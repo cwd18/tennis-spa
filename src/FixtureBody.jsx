@@ -32,6 +32,7 @@ function FixtureBody({
   useEffect(() => {
     fetch(apiServer + "/api/playerLists/" + fixtureid, {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.json())
       .then(setPlayerLists);
@@ -39,16 +40,19 @@ function FixtureBody({
     if (inBookingWindow >= 0) {
       fetch(apiServer + "/api/bookingViewGrid/Booked/" + fixtureid, {
         credentials: "include",
+        cache: "no-cache",
       })
         .then((response) => response.json())
         .then(setBookings);
       fetch(apiServer + "/api/bookingViewGrid/Cancel/" + fixtureid, {
         credentials: "include",
+        cache: "no-cache",
       })
         .then((response) => response.json())
         .then(setBookingsToCancel);
       fetch(apiServer + "/api/absentBookers/" + fixtureid, {
         credentials: "include",
+        cache: "no-cache",
       })
         .then((response) => response.json())
         .then(setAbsentBookers);
@@ -57,6 +61,7 @@ function FixtureBody({
     if (inBookingWindow < 0) {
       fetch(apiServer + "/api/bookings/Request/" + fixtureid, {
         credentials: "include",
+        cache: "no-cache",
       })
         .then((response) => response.json())
         .then(setBookingRequests);

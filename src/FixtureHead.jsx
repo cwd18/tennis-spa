@@ -2,6 +2,7 @@ import globalData from "./GlobalData";
 import { Fragment, useEffect, useState } from "react";
 import OwnerDialog from "./OwnerDialog";
 import CourtsDialog from "./CourtsDialog";
+import AlternateStartTime from "./AlternateStartTime";
 
 function FixtureHead({
   fixtures,
@@ -28,6 +29,7 @@ function FixtureHead({
     FixtureCourts,
     TargetCourts,
     description,
+    bookingTimes,
   } = fixtures[fixtureIndex];
   const { role } = globalData;
   return (
@@ -38,6 +40,12 @@ function FixtureHead({
       </h2>
       {role !== "User" && (
         <Fragment>
+          <AlternateStartTime
+            fixtureid={Fixtureid}
+            bookingTimes={bookingTimes}
+            fixtureTime={FixtureTime}
+            setViewTime={setViewTime}
+          />
           <OwnerDialog
             fixtureid={Fixtureid}
             ownerid={FixtureOwner}

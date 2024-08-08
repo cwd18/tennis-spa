@@ -21,7 +21,10 @@ function App() {
     if (currentPath.startsWith("/start/")) {
       return;
     }
-    fetch(globalData.apiServer + "/api/session", { credentials: "include" })
+    fetch(globalData.apiServer + "/api/session", {
+      credentials: "include",
+      cache: "no-cache",
+    })
       .then((response) => response.json())
       .then((response) => {
         setSessionData(response);

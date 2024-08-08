@@ -10,6 +10,7 @@ function CopyEmails({ fixtureid }) {
     setCopying(true);
     fetch(apiServer + "/api/getEmailList/" + fixtureid, {
       credentials: "include",
+      cache: "no-cache",
     })
       .then((response) => response.text())
       .then((response) => {

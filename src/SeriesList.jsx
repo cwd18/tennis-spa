@@ -7,7 +7,10 @@ function SeriesList() {
   const [seriesData, setSeriesData] = useState([]);
   const [error, setError] = useState(null);
   useEffect(() => {
-    fetch(globalData.apiServer + "/api/serieslist", { credentials: "include" })
+    fetch(globalData.apiServer + "/api/serieslist", {
+      credentials: "include",
+      cache: "no-cache",
+    })
       .then((response) => {
         if (response.status === 401) {
           throw new Error("Not authorized");
