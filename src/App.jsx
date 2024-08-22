@@ -12,13 +12,11 @@ import UserList from "./UserList";
 function App() {
   const location = useLocation();
   const currentPath = location.pathname;
-  const [sessionData, setSessionData] = useState({
-    sessionUser: "",
-    sessionRole: "",
-  });
+  const [sessionDataFetched, setSessionDataFetched] = useState(false);
   useEffect(() => {
     // Get session data if path is not a link to start a new session
     if (currentPath.startsWith("/start/")) {
+      setSessionDataFetched(true); // not really fetched but fine to render routes
       return;
     }
     fetch(globalData.apiServer + "/api/session", {
@@ -27,12 +25,12 @@ function App() {
     })
       .then((response) => response.json())
       .then((response) => {
-        setSessionData(response);
+        setSessionDataFetched(true);
         globalData.role = response.sessionRole;
         globalData.name = response.sessionUser;
       });
   }, []);
-  if (sessionData.role === "") return null;
+  if (sessionDataFetched === false) return null;
   return (
     <div>
       <Routes>

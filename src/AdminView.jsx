@@ -33,7 +33,7 @@ function AdminView() {
               <br />
             </Fragment>
           )}
-          {role !== "Admin" && (
+          {(role === "User" || role === "Owner") && (
             <ErrorView error="You need to be an Admin to view this page" />
           )}
         </div>
