@@ -16,6 +16,7 @@ function UserListTable({ fixtureid }) {
   const { apiServer, role } = globalData;
   const incrementViewTime = () => {
     setViewTime(viewTime + 1);
+    console.log("incrementViewTime in UserListTable, viewTime = " + viewTime);
   };
   useEffect(() => {
     fetch(apiServer + "/api/userlist/" + fixtureid, {

@@ -17,7 +17,7 @@ function FixtureView({ seriesid, userid, setUserid }) {
   const [error, setError] = useState(null);
   const incrementViewTime = () => {
     setViewTime(viewTime + 1);
-    console.log("incrementViewTime, viewTime = " + viewTime);
+    console.log("incrementViewTime in FictureView, viewTime = " + viewTime);
   };
 
   useEffect(() => {
