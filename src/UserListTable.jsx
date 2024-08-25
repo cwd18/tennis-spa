@@ -14,6 +14,9 @@ function UserListTable({ fixtureid }) {
   const [editIndex, SetEditIndex] = useState(0);
   const [candidates, setCandidates] = useState([]);
   const { apiServer, role } = globalData;
+  const incrementViewTime = () => {
+    setViewTime(viewTime + 1);
+  };
   useEffect(() => {
     fetch(apiServer + "/api/userlist/" + fixtureid, {
       credentials: "include",
@@ -58,7 +61,7 @@ function UserListTable({ fixtureid }) {
       body: JSON.stringify(selectedUsers),
     }).then(() => {
       setUsersSelectDialogVisible(false);
-      setViewTime((vt) => vt + 1);
+      incrementViewTime((vt) => vt + 1);
     });
   };
   let heading = "Tennis users";
@@ -111,7 +114,7 @@ function UserListTable({ fixtureid }) {
         userData={userList[editIndex]}
         fixtureid={fixtureid}
         cancelDialog={cancelUserDialog}
-        setViewTime={setViewTime}
+        incrementViewTime={incrementViewTime}
       />
       <UsersSelectDialog
         dialogVisible={usersSelectDialogVisible}

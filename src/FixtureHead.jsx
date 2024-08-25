@@ -9,7 +9,7 @@ function FixtureHead({
   fixtureIndex,
   handleFixtureSwitch,
   viewTime,
-  setViewTime,
+  incrementViewTime,
 }) {
   const [refreshing, setRefreshing] = useState(false);
   useEffect(() => {
@@ -44,27 +44,27 @@ function FixtureHead({
             fixtureid={Fixtureid}
             bookingTimes={bookingTimes}
             fixtureTime={FixtureTime}
-            setViewTime={setViewTime}
+            incrementViewTime={incrementViewTime}
           />
           <OwnerDialog
             fixtureid={Fixtureid}
             ownerid={FixtureOwner}
             ownerName={OwnerFirstName + " " + OwnerLastName}
-            setViewTime={setViewTime}
+            incrementViewTime={incrementViewTime}
           />
           <CourtsDialog
             fixtureid={Fixtureid}
             type="courts"
             title="Courts"
             courts={FixtureCourts}
-            setViewTime={setViewTime}
+            incrementViewTime={incrementViewTime}
           />
           <CourtsDialog
             fixtureid={Fixtureid}
             type="target"
             title="Courts to book"
             courts={TargetCourts}
-            setViewTime={setViewTime}
+            incrementViewTime={incrementViewTime}
           />
         </Fragment>
       )}
@@ -77,7 +77,7 @@ function FixtureHead({
       <button
         className="pure-button"
         onClick={() => {
-          setViewTime((vt) => vt + 1);
+          incrementViewTime((vt) => vt + 1);
           setRefreshing(true);
         }}
       >

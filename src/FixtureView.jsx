@@ -15,6 +15,10 @@ function FixtureView({ seriesid, userid, setUserid }) {
   const [viewTime, setViewTime] = useState(0);
   const { apiServer, role } = globalData;
   const [error, setError] = useState(null);
+  const incrementViewTime = () => {
+    setViewTime(viewTime + 1);
+    console.log("incrementViewTime, viewTime = " + viewTime);
+  };
 
   useEffect(() => {
     fetch(apiServer + "/api/fixtures/" + seriesid, { credentials: "include" })
@@ -59,7 +63,7 @@ function FixtureView({ seriesid, userid, setUserid }) {
         fixtureIndex={fixtureIndex}
         handleFixtureSwitch={handleFixtureSwitch}
         viewTime={viewTime}
-        setViewTime={setViewTime}
+        incrementViewTime={incrementViewTime}
       />
       {role !== "User" && (
         <Fragment>
@@ -79,16 +83,19 @@ function FixtureView({ seriesid, userid, setUserid }) {
           inBookingWindow={inBookingWindow}
           userid={userid}
           viewTime={viewTime}
-          setViewTime={setViewTime}
+          incrementViewTime={incrementViewTime}
         />
       )}
       {role !== "User" && inBookingWindow === 0 && (
-        <SetPlaying fixtureid={Fixtureid} setViewTime={setViewTime} />
+        <SetPlaying
+          fixtureid={Fixtureid}
+          incrementViewTime={incrementViewTime}
+        />
       )}
       <FixtureBody
         fixtureid={Fixtureid}
         viewTime={viewTime}
-        setViewTime={setViewTime}
+        incrementViewTime={incrementViewTime}
         inBookingWindow={inBookingWindow}
         bookingDateYmd={bookingDateYmd}
       />

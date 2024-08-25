@@ -1,7 +1,7 @@
 import { useState, useRef, Fragment } from "react";
 import globalData from "./GlobalData";
 
-function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
+function CourtsDialog({ fixtureid, type, title, courts, incrementViewTime }) {
   const [editMode, setEditMode] = useState(false);
   const [newCourts, setNewCourts] = useState(courts);
   const dialog = useRef();
@@ -24,7 +24,7 @@ function CourtsDialog({ fixtureid, type, title, courts, setViewTime }) {
         method: "PUT",
         credentials: "include",
       }
-    ).then(() => setViewTime((vt) => vt + 1));
+    ).then(incrementViewTime);
   };
 
   const handleOnClick = (event) => {

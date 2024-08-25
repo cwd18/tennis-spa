@@ -4,16 +4,14 @@ function AlternateStartTime({
   fixtureid,
   bookingTimes,
   fixtureTime,
-  setViewTime,
+  incrementViewTime,
 }) {
   const { apiServer } = globalData;
   const updateStart = () => {
     fetch(apiServer + "/api/alternateFixtureTime/" + fixtureid, {
       method: "PUT",
       credentials: "include",
-    }).then(() => {
-      setViewTime((vt) => vt + 1);
-    });
+    }).then(incrementViewTime);
   };
   let alternateStartTime = "";
   if (bookingTimes.length === 3) {

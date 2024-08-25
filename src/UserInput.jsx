@@ -8,7 +8,7 @@ function UserInput({
   inBookingWindow,
   userid,
   viewTime,
-  setViewTime,
+  incrementViewTime,
 }) {
   const [wantsToPlay, setWantsToPlay] = useState();
   const [participantData, setParticipantData] = useState({});
@@ -59,7 +59,7 @@ function UserInput({
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(bookings),
-    }).then(() => setViewTime((vt) => vt + 1));
+    }).then(incrementViewTime);
   };
 
   const handleWantsToPlayChange = (value) => {
@@ -77,7 +77,7 @@ function UserInput({
         credentials: "include",
         headers: { "Content-Type": "application/json" },
       }
-    ).then(() => setViewTime((vt) => vt + 1));
+    ).then(incrementViewTime);
   };
 
   const { FirstName, seriesLink } = participantData;

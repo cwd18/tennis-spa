@@ -1,11 +1,11 @@
 import globalData from "./GlobalData";
 
-function SetPlaying({ fixtureid, setViewTime }) {
+function SetPlaying({ fixtureid, incrementViewTime }) {
   const setPlaying = (mode) => {
     fetch(globalData.apiServer + "/api/playing/" + fixtureid + "/" + mode, {
       method: "PUT",
       credentials: "include",
-    }).then(() => setViewTime((vt) => vt + 1));
+    }).then(incrementViewTime);
   };
   return (
     <div>

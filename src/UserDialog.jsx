@@ -7,7 +7,7 @@ function UserDialog({
   userData,
   fixtureid,
   cancelDialog,
-  setViewTime,
+  incrementViewTime,
 }) {
   const [edited, setEdited] = useState(false);
   const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
@@ -39,7 +39,7 @@ function UserDialog({
       body: JSON.stringify(Object.fromEntries(formData.entries())),
     })
       .then(cancel)
-      .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
+      .then(incrementViewTime); // refresh the user list
   };
   const deleteUser = (scope) => {
     fetch(
@@ -59,7 +59,7 @@ function UserDialog({
       }
     )
       .then(cancel)
-      .then(() => setViewTime((vt) => vt + 1)); // refresh the user list
+      .then(incrementViewTime); // refresh the user list
   };
   if (!dialogVisible) return null;
   return (

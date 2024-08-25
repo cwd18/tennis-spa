@@ -2,7 +2,7 @@ import globalData from "./GlobalData";
 import { Fragment, useState, useRef } from "react";
 import UserSelect from "./UserSelect";
 
-function OwnerDialog({ fixtureid, ownerid, ownerName, setViewTime }) {
+function OwnerDialog({ fixtureid, ownerid, ownerName, incrementViewTime }) {
   const { apiServer, role } = globalData;
   const [editMode, setEditMode] = useState(false);
   const [newOwner, setNewOwner] = useState(ownerid);
@@ -32,7 +32,7 @@ function OwnerDialog({ fixtureid, ownerid, ownerName, setViewTime }) {
       }
     ).then(() => {
       exitEdit();
-      setViewTime((vt) => vt + 1);
+      incrementViewTime((vt) => vt + 1);
     });
   };
   if (editMode) {

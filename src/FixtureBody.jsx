@@ -9,7 +9,7 @@ import BookingRequestsEditable from "./BookingRequestsEditable";
 function FixtureBody({
   fixtureid,
   viewTime,
-  setViewTime,
+  incrementViewTime,
   inBookingWindow,
   bookingDateYmd,
 }) {
@@ -26,7 +26,7 @@ function FixtureBody({
         credentials: "include",
         method: "PUT",
       }
-    ).then(() => setViewTime((vt) => vt + 1));
+    ).then(incrementViewTime);
   };
 
   useEffect(() => {
