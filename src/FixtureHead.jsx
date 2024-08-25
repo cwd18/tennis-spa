@@ -34,10 +34,10 @@ function FixtureHead({
   const { role } = globalData;
   return (
     <div>
-      <h2>
+      <h3>
         {description + " at "}
         <span style={{ color: "red" }}> {FixtureTime}</span>
-      </h2>
+      </h3>
       {role !== "User" && (
         <Fragment>
           <AlternateStartTime
@@ -72,7 +72,7 @@ function FixtureHead({
         className="pure-button button-margin-right"
         onClick={() => handleFixtureSwitch((fixtureIndex + 1) % 2)}
       >
-        Switch to {fixtures[(fixtureIndex + 1) % 2].description}
+        Switch to {fixtures[(fixtureIndex + 1) % 2].shortDate}
       </button>
       <button
         className="pure-button"
