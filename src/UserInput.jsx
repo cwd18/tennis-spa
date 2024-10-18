@@ -80,7 +80,7 @@ function UserInput({
     ).then(incrementViewTime);
   };
 
-  const { FirstName, seriesLink } = participantData;
+  const { FirstName, isPlaying, seriesLink } = participantData;
   if (inBookingWindow === undefined) return null;
   return (
     <div>
@@ -88,6 +88,7 @@ function UserInput({
       <WantsToPlay
         name={FirstName}
         wantsToPlay={wantsToPlay}
+        isPlaying={isPlaying}
         handleWantsToPlayChange={handleWantsToPlayChange}
       />
 
