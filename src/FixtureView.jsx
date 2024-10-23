@@ -7,6 +7,7 @@ import globalData from "./GlobalData";
 import ErrorView from "./ErrorView";
 import SetPlaying from "./SetPlaying";
 import CopyEmails from "./CopyEmails";
+import EmailMessage from "./EmailMessage";
 import { Link } from "react-router-dom";
 
 function FixtureView({ seriesid, userid, setUserid }) {
@@ -101,6 +102,8 @@ function FixtureView({ seriesid, userid, setUserid }) {
       />
       {role !== "User" && (
         <Fragment>
+          <hr />
+          <EmailMessage fixtureid={Fixtureid} />
           <CopyEmails fixtureid={Fixtureid} />
           <br />
           <Link to={"/userlist/" + Fixtureid} className="pure-button">
