@@ -1,9 +1,13 @@
+import globalData from "./GlobalData";
+
 function WantsToPlay({
   name,
   wantsToPlay,
   isPlaying,
   handleWantsToPlayChange,
+  handleSetPlaying,
 }) {
+  const { role } = globalData;
   if (wantsToPlay === "Unknown") {
     return (
       <div>
@@ -37,6 +41,14 @@ function WantsToPlay({
             : "can't play"}
         </b>
       </p>
+      {role !== "User" && wantsToPlay === "Yes" && (
+        <button
+          className="pure-button button-margin-right"
+          onClick={() => handleSetPlaying(isPlaying ? "0" : "1")}
+        >
+          {isPlaying ? "Set not playing" : "Set playing"}
+        </button>
+      )}
       <button
         className="pure-button"
         onClick={() =>
