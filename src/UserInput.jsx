@@ -80,6 +80,23 @@ function UserInput({
     ).then(incrementViewTime);
   };
 
+  const handleSetPlaying = (value) => {
+    fetch(
+      apiServer +
+        "/api/participantSetPlaying/" +
+        fixtureid +
+        "/" +
+        userid +
+        "/" +
+        value,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(incrementViewTime);
+  };
+
   const { FirstName, isPlaying, seriesLink } = participantData;
   if (inBookingWindow === undefined) return null;
   return (
@@ -90,6 +107,7 @@ function UserInput({
         wantsToPlay={wantsToPlay}
         isPlaying={isPlaying}
         handleWantsToPlayChange={handleWantsToPlayChange}
+        handleSetPlaying={handleSetPlaying}
       />
 
       {inBookingWindow >= 0 && (
