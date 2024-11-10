@@ -72,9 +72,7 @@ function FixtureBody({
       <PlayerList players={playerLists.players} label="Playing" />
       <PlayerList players={playerLists.reserves} label="Wants to play" />
       <PlayerList players={playerLists.decliners} label="Can't play" />
-      {(role === "Admin" || role == "Owner") && (
-        <PlayerList players={playerLists.abstainers} label="Undeclared" />
-      )}
+      <PlayerList players={playerLists.abstainers} label="Undeclared" />
 
       {inBookingWindow >= 0 && (
         <Fragment>

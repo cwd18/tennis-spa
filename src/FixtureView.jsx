@@ -9,6 +9,7 @@ import SetPlaying from "./SetPlaying";
 import CopyEmails from "./CopyEmails";
 import EmailMessage from "./EmailMessage";
 import { Link } from "react-router-dom";
+import FixtureTabs from "./FixtureTabs";
 
 function FixtureView({ seriesid, userid, setUserid }) {
   const [fixtures, setFixtures] = useState([]);
@@ -59,6 +60,12 @@ function FixtureView({ seriesid, userid, setUserid }) {
   const { Fixtureid, inBookingWindow, bookingDateYmd } = fixtures[fixtureIndex];
   return (
     <div>
+      <FixtureTabs
+        fixtureIndex={fixtureIndex}
+        handleFixtureSwitch={handleFixtureSwitch}
+        tab1={fixtures[0].shortDate}
+        tab2={fixtures[1].shortDate}
+      />
       <FixtureHead
         fixtures={fixtures}
         fixtureIndex={fixtureIndex}

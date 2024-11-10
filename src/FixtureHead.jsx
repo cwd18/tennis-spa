@@ -69,12 +69,6 @@ function FixtureHead({
         </Fragment>
       )}
       <button
-        className="pure-button button-margin-right"
-        onClick={() => handleFixtureSwitch((fixtureIndex + 1) % 2)}
-      >
-        Switch to {fixtures[(fixtureIndex + 1) % 2].shortDate}
-      </button>
-      <button
         className="pure-button"
         onClick={() => {
           incrementViewTime((vt) => vt + 1);
