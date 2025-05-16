@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import globalData from "./GlobalData";
 import Start from "./Start";
+import ErrorView from "./ErrorView";
 import AdminView from "./AdminView";
 import UserView from "./UserView";
 import OwnerView from "./OwnerView";
@@ -13,8 +14,9 @@ function App() {
   const location = useLocation();
   const currentPath = location.pathname;
   const [sessionDataFetched, setSessionDataFetched] = useState(false);
+  const [error, setError] = useState(null);
   useEffect(() => {
-    // Get session data if path is not a link to start a new session
+    // Get session data unless the path is a link to start a new session
     if (currentPath.startsWith("/start/")) {
       setSessionDataFetched(true); // not really fetched but fine to render routes
       return;
@@ -23,13 +25,29 @@ function App() {
       credentials: "include",
       cache: "no-cache",
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          throw new Error("No session data");
+        }
+        return response.json();
+      })
       .then((response) => {
         setSessionDataFetched(true);
         globalData.role = response.sessionRole;
         globalData.name = response.sessionUser;
+      })
+      .catch((error) => {
+        console.error("Error fetching session data:", error.toString());
+        setError(error.toString());
       });
   }, []);
+  if (error) {
+    return (
+      <div>
+        <ErrorView error={error} />
+      </div>
+    );
+  }
   if (sessionDataFetched === false) return null;
   return (
     <div>
