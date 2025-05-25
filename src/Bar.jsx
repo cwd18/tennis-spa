@@ -2,6 +2,7 @@
 // In the Admin role, clicking the bar navigates to the admin entry point
 import globalData from "./GlobalData";
 import { useNavigate } from "react-router-dom";
+import ShowSessionId from "./ShowSessionId";
 
 function Bar() {
   const navigate = useNavigate();
@@ -11,9 +12,6 @@ function Bar() {
       navigate("/admin"); // Navigate to the admin entry point
     }
   };
-  if (name === "") {
-    return null;
-  }
   return (
     <div
       className="pure-g"
@@ -23,6 +21,7 @@ function Bar() {
       <p style={{ marginLeft: "25px" }}>
         {name} {role === "User" || role === "" ? "" : " (" + role + ")"}
       </p>
+      {(role === "Admin" || name === "") && <ShowSessionId />}
     </div>
   );
 }

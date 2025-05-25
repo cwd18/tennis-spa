@@ -9,6 +9,7 @@ import AdminView from "./AdminView";
 import UserView from "./UserView";
 import OwnerView from "./OwnerView";
 import UserList from "./UserList";
+import Bar from "./Bar";
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,19 @@ function App() {
       setSessionDataFetched(true); // not really fetched but fine to render routes
       return;
     }
+    // Check that PHPSESSID cookie is set
+    // Don't try to fetch session data if no session cookie is present
+    // As session_start() will just create a new session with empty session data
+    const sessionCookie = document.cookie
+      .split("; ")
+      .find((c) => c.startsWith("PHPSESSID="));
+    if (!sessionCookie) {
+      setError("No session cookie found");
+      return;
+    }
+    // Fetch session data from the server
+    // This will return 401 if the session id is not found in the SessionData table
+    // and the user should start a new session
     fetch(globalData.apiServer + "/api/session", {
       credentials: "include",
       cache: "no-cache",
@@ -44,6 +58,7 @@ function App() {
   if (error) {
     return (
       <div>
+        <Bar />
         <ErrorView error={error} />
       </div>
     );
