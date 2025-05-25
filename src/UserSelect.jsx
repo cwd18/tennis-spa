@@ -24,6 +24,7 @@ function UserSelect({ label, includeNone, fixtureid, userid, setUserid }) {
     <Fragment>
       <label htmlFor="userid">{label + " "}</label>
       <select
+        id="userid"
         value={userid}
         onChange={(event) => setUserid(Number(event.target.value))}
       >
