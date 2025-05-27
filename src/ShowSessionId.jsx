@@ -30,7 +30,7 @@ function ShowSessionId() {
 
   return (
     <p style={{ marginLeft: "25px" }}>
-      {sessionId ? sessionId : "Session ID not found or is HttpOnly"}
+      {sessionId ? sessionId : "No session cookie"}
     </p>
   );
 }
